@@ -1,0 +1,17 @@
+{
+  "schema": "hpw-brand-kit/1",
+  "org": { "name": "Roastworks Coffee Co.", "shortName": "Roastworks" },
+  "palette": {
+    "ACCENT":     "3A9BB5",
+    "DACCENT":    "2A7288",
+    "LACCENT":    "A8DCE8",
+    "LACCENT2":   "E4F4F8",
+    "ALT_ACCENT": "2F7E93",
+    "GOLD":       "CC9933",
+    "BGLTGOLD":   "FFF6E0"
+  },
+  "type": { "FONT": "Brandon Grotesque" },
+  "logo": { "path": "logo_untrimmed.png", "absent": false, "headerCellDxa": 1400 },
+  "header": { "style": "logo-left", "rule": "accent" },
+  "naming": { "PREFIX": "ROAST_CO", "SEGMENTS": ["OPS", "SVC"], "defaultSegment": "OPS" }
+}

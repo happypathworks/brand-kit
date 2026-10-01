@@ -49,8 +49,8 @@ swatches.
 
     node brand_check.js examples/brand-sample/brand-broken.json
 
-Every line it prints is a failure a printed document would carry without
-complaint, and the exit code is 1. `examples/brand-sample/README.md` explains
+Each FAIL line it prints is a failure a printed document would carry
+without complaint, and the exit code is 1. `examples/brand-sample/README.md` explains
 what each one would have looked like on the page. `brand.json` beside it is a
 kit that passes clean.
 

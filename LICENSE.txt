@@ -1,0 +1,86 @@
+Happy Path Works — license
+
+This file ships in every Happy Path Works skill. Some of these skills are sold
+and some are given away, so it states two sets of terms. Section 1 says which
+set covers the skill you have.
+
+1. Which terms apply
+
+Given away, under section 2: brand-kit, action-list, skill-audit.
+
+Sold, under section 3: sop-docx, qrg-builder, agenda-builder, reqdoc-builder.
+
+A skill not named above is sold, and section 3 covers it.
+
+2. Skills given away — the MIT License
+
+Copyright (c) 2026 Happy Path Works
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+3. Skills that are sold
+
+A sold skill is covered by one of two licenses, and your receipt states which
+you bought.
+
+Solo license: one person's use, on any machine that person works on.
+
+Team license: up to five people at one organization, each on any machine
+they work on. More than five people: buy another team license. Each one
+covers five.
+
+Under either license you may modify the files for your own use and keep the
+modifications. Producing documents for a client is your own use. Installing
+the skills for a client's people to run themselves is the client's use, and
+they need their own license.
+
+You may not resell, republish, or redistribute the skill files, modified or
+not, and you may not include them in a product, bundle, or course you sell.
+
+Updates within a major version are delivered at no cost to the email address
+used at purchase.
+
+4. Files that travel between the two
+
+A skill is a folder, and some files in it come from elsewhere in the catalog.
+The terms follow the file, not the folder it arrived in.
+
+brand_kit.js and brand_check.js belong to brand-kit and ship inside every
+skill that reads a brand kit. They are section 2 files wherever they appear,
+including inside a skill you bought.
+
+sop_helpers.js belongs to the sold skills and ships inside a free skill that
+builds documents. It stays a section 3 file there: use it and modify it as
+part of that skill, and do not publish or sell it on its own.
+
+vendor/docx.cjs is the docx library, third-party and MIT, with its notices and
+those of everything bundled in it in vendor/THIRD_PARTY_LICENSES.txt.
+
+5. What you make with these skills
+
+Documents you produce are yours, with no attribution required and no
+restriction on commercial use. Nothing here claims any interest in them.
+
+6. Plainly
+
+These files are markdown and scripts. They are trivially copyable, and this
+license is a statement of terms rather than a technical control. It is here
+because reasonable people want to know where the line is.
+
+Full terms, refunds, and support: https://happypath.works/policies/

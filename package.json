@@ -1,0 +1,17 @@
+{
+  "name": "brand-kit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Brand kit intake and validation for the Document Ops pack. No runtime dependencies by design.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "check": "node brand_check.js",
+    "check:brand": "node brand_check.js",
+    "check:sample": "node brand_check.js examples/brand-sample/brand.json",
+    "check:broken": "node brand_check.js examples/brand-sample/brand-broken.json"
+  },
+  "dependencies": {},
+  "license": "SEE LICENSE IN LICENSE.txt"
+}
