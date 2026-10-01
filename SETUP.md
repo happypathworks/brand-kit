@@ -45,7 +45,7 @@ node brand_check.js examples/brand-sample/brand-broken.json
 echo $?
 ```
 
-Expected: ten violations and exit 1. Read them. They are the failures this skill
+Expected: eleven violations and exit 1. Read them. They are the failures this skill
 exists to catch, and `examples/brand-sample/README.md` explains what each one
 would have looked like in a printed document.
 

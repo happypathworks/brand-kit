@@ -1,6 +1,6 @@
 {
   "name": "brand-kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Brand kit intake and validation for the Document Ops pack. No runtime dependencies by design.",
   "engines": {

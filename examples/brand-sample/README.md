@@ -20,9 +20,9 @@ talks about its documents.
 Every value in it was chosen by looking at swatches on a white ground. That is
 the whole failure.
 
-## The ten violations, and what each one looks like on paper
+## The eleven violations, and what each one looks like on paper
 
-### Contrast — six of them
+### Contrast — eight of them
 
 | Finding | Measured | Where it shows up |
 |---|---|---|
@@ -32,13 +32,17 @@ the whole failure.
 | `contrast.hdr.date` | 3.21:1 | The effective date at 7.5pt — the field someone squints at to check whether the copy on the wall is current. |
 | `contrast.path.a` | 3.21:1 | The primary path header in a decision block. |
 | `contrast.label.section` | 3.21:1 | Every section label on the page, this time as *text* rather than as a fill. |
-| `contrast.info.head` | 2.94:1 | White on the info-box bar. |
+| `contrast.info.head` | 2.57:1 | White on the info-box bar. |
+| `contrast.purpose.label` | 2.57:1 | The PURPOSE label, printed in the gold on the white page. |
 
 One colour causes six of these. `3A9BB5` is a fill under white text in three
 different places **and** is printed as text on the white page — two opposite
 directions, and no mid-tone value satisfies both. It has to get darker; the
 corrected kit uses `2E75B6`, which clears white at 4.84:1 and still reads as
 the same family of blue.
+
+The other two are `GOLD`, once as a fill under white text and once as text on
+the white page, both at 2.57:1.
 
 This is the class of problem a swatch cannot show you. The colours are only
 wrong in combination, and only at the sizes the templates use.

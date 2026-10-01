@@ -19,7 +19,7 @@ compatibility: >
   Node's built-ins, so there is nothing to install and no library is vendored.
   Run `node check_deps.js` from the skill folder to confirm. See SETUP.md.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # brand-kit
