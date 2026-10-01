@@ -1,0 +1,5 @@
+# One line ending in the repository, whoever commits and whatever they commit from.
+# CI runs on ubuntu-latest and the checker ships a shebang: a stray CR at the end of
+# `#!/usr/bin/env python3` makes the file unrunnable on Linux, and mixed endings turn
+# every cross-platform contribution into a whole-file diff.
+* text=auto eol=lf

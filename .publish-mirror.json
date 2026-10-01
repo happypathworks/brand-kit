@@ -1,0 +1,2 @@
+{"source": "02_stripped/brand-kit",
+ "public_only": ["README.md", ".gitattributes", ".gitignore", ".github/**", ".claude-plugin/**"]}

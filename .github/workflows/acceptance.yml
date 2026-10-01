@@ -1,0 +1,33 @@
+name: acceptance
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The floor SETUP.md claims (18) and a current release.
+        node-version: ['18', '22']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: preflight must PASS
+        run: node check_deps.js
+      - name: the sample kit must pass the validator
+        run: node brand_check.js examples/brand-sample/brand.json
+      - name: the broken kit must be refused with exit 1
+        run: |
+          code=0
+          node brand_check.js examples/brand-sample/brand-broken.json || code=$?
+          if [ "$code" -ne 1 ]; then
+            echo "expected exit 1 (refused), got $code"
+            exit 1
+          fi
+          echo "refused, exit 1, as documented."
