@@ -5,6 +5,8 @@ document-naming vocabulary into one validated `brand.json`: palette, typeface,
 logo, header style, and the prefix and segments documents are filed under.
 Document skills read the kit to build in your colors. `action-list` is one.
 
+Used by the free [Action Items List](https://happypath.works/free/action-list/) and the Document Ops pack, from [Happy Path Works](https://happypath.works/).
+
 Free, MIT. Node 18 or later, and nothing else: the loader and the validator use
 only Node's built-ins.
 
