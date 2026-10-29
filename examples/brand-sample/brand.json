@@ -21,10 +21,6 @@
     "absent": false,
     "headerCellDxa": 1400
   },
-  "header": {
-    "style": "logo-left",
-    "rule": "accent"
-  },
   "naming": {
     "PREFIX": "ROAST",
     "SEGMENTS": [

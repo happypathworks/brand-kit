@@ -61,9 +61,9 @@ used at purchase.
 A skill is a folder, and some files in it come from elsewhere in the catalog.
 The terms follow the file, not the folder it arrived in.
 
-brand_kit.js and brand_check.js belong to brand-kit and ship inside every
-skill that reads a brand kit. They are section 2 files wherever they appear,
-including inside a skill you bought.
+brand_kit.js, brand_rules.js and brand_check.js belong to brand-kit and
+ship inside every skill that reads a brand kit. They are section 2 files
+wherever they appear, including inside a skill you bought.
 
 sop_helpers.js belongs to the sold skills and ships inside a free skill that
 builds documents. It stays a section 3 file there: use it and modify it as

@@ -12,6 +12,5 @@
   },
   "type": { "FONT": "Brandon Grotesque" },
   "logo": { "path": "logo_untrimmed.png", "absent": false, "headerCellDxa": 1400 },
-  "header": { "style": "logo-left", "rule": "accent" },
   "naming": { "PREFIX": "ROAST_CO", "SEGMENTS": ["OPS", "SVC"], "defaultSegment": "OPS" }
 }

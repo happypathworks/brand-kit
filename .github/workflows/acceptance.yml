@@ -11,8 +11,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The floor SETUP.md claims (18) and a current release.
-        node-version: ['18', '22']
+        # The floor SETUP.md claims (20) and a current release.
+        node-version: ['20', '22']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

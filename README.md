@@ -7,7 +7,7 @@ Document skills read the kit to build in your colors. `action-list` is one.
 
 Used by the free [Action Items List](https://happypath.works/free/action-list/) and the Document Ops pack, from [Happy Path Works](https://happypath.works/).
 
-Free, MIT. Node 18 or later, and nothing else: the loader and the validator use
+Free, MIT. Node 20 or later, and nothing else: the loader and the validator use
 only Node's built-ins.
 
 ## The gap it closes

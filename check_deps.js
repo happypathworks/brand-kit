@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 /*
- * check_deps.js — preflight for the brand-kit skill.
+ * check_deps.js — install check for the brand-kit skill.
  *
- * Run this BEFORE you write a brand.json. It answers one question with an exit
- * code: is everything this skill depends on actually present and usable here?
+ * It answers one question with an exit code: is everything this skill depends
+ * on actually present and usable here?
  *
  * Nothing in the pack is installed: the document skills carry docx inside
  * them, and this skill needs nothing beyond Node's built-ins — brand_check.js
@@ -20,12 +20,12 @@
  * shipped to prove it works.
  *
  * Usage:
- *   node check_deps.js            # from the skill folder
- *   node check_deps.js --json
+ *   node SKILL_DIR/check_deps.js          # from any folder
+ *   node SKILL_DIR/check_deps.js --json
  *
  * Exit codes:
  *   0  everything present and the validator agrees with its own fixtures
- *   1  something is missing — the report names it and the fix
+ *   1  a check failed — the report names it and the fix
  */
 
 const fs = require('fs');
@@ -42,8 +42,11 @@ const BUNDLED_FILES = [
   'SETUP.md',
   'brand_kit.js',
   'brand_check.js',
+  'brand_rules.js',
+  'check_deps.js',
   'package.json',
   'LICENSE.txt',
+  'NOT_CHECKED.md',
 ];
 
 // The fixtures brand_check.js is documented against. Without them the two
@@ -57,11 +60,9 @@ const BUNDLED_FIXTURES = [
   path.join('examples', 'brand-sample', 'logo_untrimmed.png'),
 ];
 
-// The API surface the other skills in the family require this file for. If
-// brand_kit.js stops exporting one of these, every skill that reads a kit
-// breaks — and it breaks in their build, not here, which is the wrong place
-// to find out.
-const REQUIRED_EXPORTS = ['load', 'resolveConfigPath', 'DEFAULTS', 'SEARCH_ORDER', 'SCHEMA_ID', 'CONFIG_NAME'];
+// What brand_kit.js exports. One missing means this copy of the file is not
+// the one the package shipped.
+const REQUIRED_EXPORTS = ['load', 'resolveConfigPath', 'DEFAULTS', 'SCHEMA_ID', 'CONFIG_NAME', 'NAMING'];
 
 // The seven slots a kit declares. The defaults must fill all of them, because
 // an un-configured install is a supported state and has to produce a valid
@@ -69,8 +70,8 @@ const REQUIRED_EXPORTS = ['load', 'resolveConfigPath', 'DEFAULTS', 'SEARCH_ORDER
 const PALETTE_SLOTS = ['ACCENT', 'DACCENT', 'LACCENT', 'LACCENT2', 'ALT_ACCENT', 'GOLD', 'BGLTGOLD'];
 
 // Node built-ins brand_check.js reads the config and decodes the logo PNG
-// with. Named explicitly so "zero dependencies" is a checked claim rather
-// than a comment.
+// with. Named so each is load-checked by name; the "zero dependencies" claim
+// is the 'zero runtime dependencies' check, read from package.json.
 const REQUIRED_BUILTINS = ['fs', 'path', 'zlib'];
 
 const checks = [];
@@ -78,8 +79,8 @@ const add = (name, ok, detail, fix) => checks.push({ name, ok, detail, fix: ok ?
 
 // --- 1. Node version ------------------------------------------------------
 const major = parseInt(process.versions.node.split('.')[0], 10);
-add('node >= 18', major >= 18, 'found node ' + process.versions.node,
-  'Install Node 18 or newer. The rest of the pack requires it and this skill declares it in package.json.');
+add('node >= 20', major >= 20, 'found node ' + process.versions.node,
+  'Install Node 20 or newer. The rest of the pack requires it and this skill declares it in package.json.');
 
 // --- 2. Bundled files present --------------------------------------------
 const missingFiles = BUNDLED_FILES.filter(f => !fs.existsSync(path.join(ROOT, f)));
@@ -116,7 +117,7 @@ const missingBuiltins = REQUIRED_BUILTINS.filter(m => {
 });
 add('node built-ins resolve', missingBuiltins.length === 0,
   missingBuiltins.length ? 'missing: ' + missingBuiltins.join(', ') : REQUIRED_BUILTINS.join(', '),
-  'This runtime is missing a core module. Install a standard Node 18+ distribution.');
+  'This runtime is missing a core module. Install a standard Node 20+ distribution.');
 
 // --- 6. brand_kit.js loads and exports the documented API -----------------
 let kitmod = null, kitErr = null;
@@ -143,11 +144,10 @@ if (kitmod) {
 }
 
 // --- 7. The validator runs, and agrees with its own fixtures --------------
-// A skill whose hard-fails are enforced by a script it cannot run has prose
-// hard-fails, which is the anti-pattern these checks exist to avoid. Here the
+// The hard fails stop the skill only if brand_check.js runs, and the
 // validator IS the product, so "it executes" is not enough: it has to return
-// the two verdicts SETUP.md promises. A checker that passes everything is
-// worse than no checker, and it would clear a bare does-it-run test.
+// the two verdicts SETUP.md promises. A checker that passed everything would
+// clear a bare does-it-run test and refuse nothing.
 const VALIDATOR = path.join(ROOT, 'brand_check.js');
 const runValidator = (args) => {
   try {
@@ -174,7 +174,7 @@ if (fs.existsSync(VALIDATOR)) {
     const bad = runValidator([path.join('examples', 'brand-sample', 'brand-broken.json')]);
     add('validator rejects the broken fixture', bad === 1,
       bad === null ? 'could not execute' : 'exit ' + bad + ' (expected 1)',
-      'The validator passed a kit built to fail ten checks, so it is not enforcing anything. Re-install the skill into ' + ROOT + '.');
+      'The validator passed a kit built to fail, so it is not enforcing anything. Re-install the skill into ' + ROOT + '.');
   } else {
     add('validator accepts the passing fixture', false, 'skipped — fixtures missing',
       'Restore examples/brand-sample/ under ' + ROOT + ', then re-run.');
