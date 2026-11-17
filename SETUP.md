@@ -33,7 +33,7 @@ the logo PNG themselves rather than pulling in an image library, so the check ru
 machine with Node. Nothing in the pack is installed: the document skills carry
 their one library inside them.
 
-Node 20 or newer, tested on Node 20 and 24.
+Node 20 or newer, tested on Node 20, 24 and 26.
 
 ## Verify the install
 

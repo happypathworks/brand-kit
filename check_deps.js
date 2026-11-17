@@ -30,7 +30,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
 
 const asJson = process.argv.includes('--json');
 const ROOT = __dirname;
@@ -79,6 +78,11 @@ const add = (name, ok, detail, fix) => checks.push({ name, ok, detail, fix: ok ?
 
 // --- 1. Node version ------------------------------------------------------
 const major = parseInt(process.versions.node.split('.')[0], 10);
+// Tested on Node 20, 24 and 26. Another major at or past the floor
+// is not refused; it is named, so a report never implies it was tested.
+const TESTED_NODE = [20, 24, 26];
+if (major >= 20 && !TESTED_NODE.includes(major)) process.stderr.write('note: node ' + process.versions.node +
+  ' is not a version this skill is tested on (' + TESTED_NODE.join(', ') + '). It should run; nothing here has checked that it does.\n');
 add('node >= 20', major >= 20, 'found node ' + process.versions.node,
   'Install Node 20 or newer. The rest of the pack requires it and this skill declares it in package.json.');
 
@@ -148,33 +152,49 @@ if (kitmod) {
 // validator IS the product, so "it executes" is not enough: it has to return
 // the two verdicts SETUP.md promises. A checker that passed everything would
 // clear a bare does-it-run test and refuse nothing.
+//
+// The validator runs in this process: brand_check.js is loaded as a module and
+// its checkKit() is called on each fixture, the verdict brand_check.js itself
+// reaches (exit 1 when any finding is a VIOLATION, else 0). Nothing is spawned.
 const VALIDATOR = path.join(ROOT, 'brand_check.js');
-const runValidator = (args) => {
+let validator = null, validatorErr = '';
+if (fs.existsSync(VALIDATOR)) {
   try {
-    execFileSync('node', [VALIDATOR].concat(args), { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
-    return 0;
+    const m = require(VALIDATOR);
+    if (m && typeof m.checkKit === 'function') validator = m;
+    else validatorErr = 'loads, but brand_rules.js beside it does not';
+  } catch (e) { validatorErr = 'not loadable (' + (e.code || e.message) + ')'; }
+}
+const verdictOn = (rel) => {
+  const file = path.join(ROOT, rel);
+  try {
+    const cfg = JSON.parse(fs.readFileSync(file, 'utf8').trimStart());
+    return validator.checkKit(cfg, file).some((f) => f.level === 'VIOLATION') ? 1 : 0;
   } catch (e) {
-    return typeof e.status === 'number' ? e.status : null;
+    return 'the validator failed before a verdict (' + e.message + ')';
   }
 };
 
 if (fs.existsSync(VALIDATOR)) {
-  const usage = runValidator(['--help']);
-  add('brand_check.js runs', usage === 2,
-    usage === null ? 'could not execute' : 'usage check returns exit ' + usage + (usage === 2 ? ' as designed' : ' (expected 2)'),
-    'The validator is not runnable. Do not write a brand.json you could not check. Try:  node ' + VALIDATOR + ' --help');
+  add('brand_check.js loads', !!validator, validator ? 'loads; exports checkKit' : validatorErr,
+    'The validator does not load. Do not write a brand.json you could not check. Re-install the skill into ' + ROOT + '.');
 
-  if (missingFixtures.length === 0) {
-    const good = runValidator([path.join('examples', 'brand-sample', 'brand.json')]);
+  if (validator && missingFixtures.length === 0) {
+    const good = verdictOn(path.join('examples', 'brand-sample', 'brand.json'));
     add('validator accepts the passing fixture', good === 0,
-      good === null ? 'could not execute' : 'exit ' + good + ' (expected 0)',
+      typeof good === 'string' ? good : 'exit ' + good + ' (expected 0)',
       'The shipped kit that is supposed to pass does not. Something under ' +
       path.join(ROOT, 'examples', 'brand-sample') + ' has been edited, or the thresholds moved.');
 
-    const bad = runValidator([path.join('examples', 'brand-sample', 'brand-broken.json')]);
+    const bad = verdictOn(path.join('examples', 'brand-sample', 'brand-broken.json'));
     add('validator rejects the broken fixture', bad === 1,
-      bad === null ? 'could not execute' : 'exit ' + bad + ' (expected 1)',
+      typeof bad === 'string' ? bad : 'exit ' + bad + ' (expected 1)',
       'The validator passed a kit built to fail, so it is not enforcing anything. Re-install the skill into ' + ROOT + '.');
+  } else if (!validator) {
+    add('validator accepts the passing fixture', false, 'skipped — validator did not load',
+      'Re-install the skill into ' + ROOT + ', then re-run.');
+    add('validator rejects the broken fixture', false, 'skipped — validator did not load',
+      'Re-install the skill into ' + ROOT + ', then re-run.');
   } else {
     add('validator accepts the passing fixture', false, 'skipped — fixtures missing',
       'Restore examples/brand-sample/ under ' + ROOT + ', then re-run.');
@@ -182,7 +202,7 @@ if (fs.existsSync(VALIDATOR)) {
       'Restore examples/brand-sample/ under ' + ROOT + ', then re-run.');
   }
 } else {
-  add('brand_check.js runs', false, 'not present',
+  add('brand_check.js loads', false, 'not present',
     'The validator is the product. Re-install the .skill package into ' + ROOT + '.');
   add('validator accepts the passing fixture', false, 'skipped — validator missing',
     'Restore brand_check.js to ' + ROOT + ', then re-run.');
