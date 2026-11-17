@@ -58,7 +58,12 @@ kit that passes clean.
 
 ## Install
 
-Put the whole folder where your Claude surface keeps skills, as `brand-kit/`:
+In Claude Code, the [`skills` CLI](https://skills.sh/) installs it with one
+command, into `.claude/skills/brand-kit/` under the folder you run it from:
+
+    npx skills add happypathworks/brand-kit --agent claude-code
+
+Or put the whole folder where your Claude surface keeps skills, as `brand-kit/`:
 
 - Claude Code, for you on this machine: `~/.claude/skills/brand-kit/`
 - Claude Code, for one project: `PROJECT/.claude/skills/brand-kit/`
